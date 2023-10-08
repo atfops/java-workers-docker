@@ -9,7 +9,7 @@ public class JobWorker {
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("172.20.0.2"); // Adapt to config, set RabbitMQ server IP
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 

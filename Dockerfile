@@ -10,8 +10,6 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:11-jre-slim
 
-EXPOSE 8080
-
 WORKDIR /app
 
 COPY --from=build /app/target/java-worker-1-jar-with-dependencies.jar /app/java-worker-1.jar
