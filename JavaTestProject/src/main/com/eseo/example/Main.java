@@ -4,18 +4,6 @@ import org.jeasy.random.api.Randomizer;
 
 public class Main {
 
-    static class Person {
-        private String name;
-        private int age;
-
-        // getters and setters ...
-
-        @Override
-        public String toString() {
-            return "Person{name='" + name + '\'' + ", age=" + age + '}';
-        }
-    }
-
     public static void main(String[] args) {
         AgeRandomizer random = new AgeRandomizer();
 
@@ -24,11 +12,10 @@ public class Main {
             test[i] = random.getRandomValue();
         }
 
+        System.out.println("Hello World!");
         for (int i = 0; i < 10; i++) {
-            System.out.println(test[i]);
+            System.out.println(i);
         }
-
-        System.out.println("Hello, World! Meet " + random.getRandomValue());
     }
 
     // Custom randomizer for age between 20 and 50

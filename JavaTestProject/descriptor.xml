@@ -1,0 +1,18 @@
+<Folder name="JavaTestProject" visible="true">
+    <Folder name="lib" visible="false">
+        <File name="easy-random-core 5.0.0.jar" visible="false" write="true" />
+    </Folder>
+    <Folder name="src" visible="true">
+        <Folder name="com" visible="true">
+            <Folder name="eseo" visible="true">
+                <Folder name="example" visible="true">
+                    <Folder name="secret" visible="true">
+                        <File name="Siu.java" visible="true" write="true" />
+                    </Folder>
+                    <File name="Main.java" visible="true" write="true" />
+                </Folder>
+            </Folder>
+        </Folder>
+    </Folder>
+    <File name="descriptor.xml" visible="true" write="false" />
+</Folder>
