@@ -353,7 +353,7 @@ public class JobWorker {
         // Create a manifest with the main class
         Manifest manifest = new Manifest();
         manifest.getMainAttributes().put(Attributes.Name.MANIFEST_VERSION, "1.0");
-        manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, mainClass);
+        manifest.getMainAttributes().put(Attributes.Name.MAIN_CLASS, "main." + mainClass);
 
         // Create the JAR file
         try (JarOutputStream jos = new JarOutputStream(new FileOutputStream(jarFile), manifest)) {
