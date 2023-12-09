@@ -576,7 +576,7 @@ public class JobWorker {
         List<String> command = new ArrayList<>();
         command.add("java");
         command.add("-jar");
-        command.add("api/src/main/java/fr/eseo/webcube/api/workers/junit-platform-console-standalone.jar");
+        command.add("/api/code/junit-platform-console-standalone.jar");
         command.add("--class-path");
         command.add(classesSrcDir.getAbsolutePath() + File.pathSeparator + classesTestDir.getAbsolutePath());
         command.add("--scan-class-path");
