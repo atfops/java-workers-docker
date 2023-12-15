@@ -582,7 +582,7 @@ public class JobWorker {
         command.add("java");
         command.add("-jar");
         command.add(
-                "/Users/arthur/Library/Mobile Documents/com~apple~CloudDocs/Documents/ESEO/Cours-i3/S9/PFE/WebCube/api/src/main/java/fr/eseo/webcube/api/workers/junit-platform-console-standalone.jar");
+                "/api/code/junit-platform-console-standalone.jar");
         command.add("--class-path");
         command.add(classesSrcDir.getAbsolutePath() + File.pathSeparator + classesTestDir.getAbsolutePath());
         command.add("--scan-class-path");
