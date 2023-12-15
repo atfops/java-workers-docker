@@ -78,7 +78,6 @@ public class JobWorker {
                     } else {
                         throw new Exception("No action specified");
                     }
-
                     channel.basicAck(deliveryTag, false); // Manual acknowledgment
                     System.out.println(" [x] Acknowledged"); // Acknowledgment log
                 } catch (Exception e) {
@@ -92,7 +91,7 @@ public class JobWorker {
         channel.basicConsume(queueName, false, consumer);
 
     }
-    
+
     private static void compileAndRun(String projectPath, String requestId, Channel channel) {
         long startTime = System.currentTimeMillis();
         long endTime;
@@ -208,7 +207,7 @@ public class JobWorker {
             String classpath = buildClasspath(libDir, classesSrcDir, classesTestDir);
 
             // compile sources
-            compileJavaFiles(srcDir, classesSrcDir, classpath, projectDir);
+            compileJavaFiles(srcDir, classesSrcDir, classpath, projectDir, requestId, channel);
 
             createJarFile(classesSrcDir, projectDir, srcDir, libDir);
 
@@ -236,10 +235,10 @@ public class JobWorker {
             String classpath = buildClasspath(libDir, classesSrcDir, classesTestDir);
 
             // compile sources
-            compileJavaFiles(srcDir, classesSrcDir, classpath, projectDir);
+            compileJavaFiles(srcDir, classesSrcDir, classpath, projectDir, requestId, channel);
 
             // compile tests
-            compileJavaFiles(testDir, classesTestDir, classpath, projectDir);
+            compileJavaFiles(testDir, classesTestDir, classpath, projectDir, requestId, channel);
 
             // run the tests
             List<TestResult> results = runTests(classesTestDir, classesSrcDir);
@@ -308,8 +307,10 @@ public class JobWorker {
         }
     }
 
-    private static void compileJavaFiles(File sourceDir, File outputDir, String classpath, File projectDir)
-            throws IOException, InterruptedException {
+    private static void compileJavaFiles(File sourceDir, File outputDir, String classpath, File projectDir, String requestId, Channel channel)
+            throws Exception {
+        
+        long startTime = System.currentTimeMillis();
         List<String> command = new ArrayList<>();
         command.add("javac");
         command.add("-d");
@@ -326,10 +327,15 @@ public class JobWorker {
         processBuilder.directory(projectDir);
         Process compileProcess = processBuilder.start();
         int compileExitCode = compileProcess.waitFor();
-        logProcessOutput("Compilation", compileProcess);
+        long endTime = System.currentTimeMillis();
+        long compilationTime = endTime - startTime;
+        String compilationErrors = logProcessOutput("Compilation", compileProcess);
         if (compileExitCode != 0) {
-            System.err.println("Compilation failed with exit code " + compileExitCode);
-            // Handle compilation failure
+            String result = "Compilation failed with exit code " + compileExitCode + "\n"
+                    + "Output: \n" + compilationErrors + "\n"
+                    + "Total execution time: " + compilationTime + " ms";
+            sendOutput(result, requestId, channel);
+            return;
         }
     }
 
@@ -381,7 +387,6 @@ public class JobWorker {
                 }
             }
         }
-
         return jarFile;
     }
 
@@ -525,7 +530,7 @@ public class JobWorker {
             failureIndices.add(testRunIndex);
         }
 
-        System.out.println(failureIndices);
+        // System.out.println(failureIndices);
 
         String currentClassName = "";
 
@@ -576,7 +581,8 @@ public class JobWorker {
         List<String> command = new ArrayList<>();
         command.add("java");
         command.add("-jar");
-        command.add("/api/code/junit-platform-console-standalone.jar");
+        command.add(
+                "/Users/arthur/Library/Mobile Documents/com~apple~CloudDocs/Documents/ESEO/Cours-i3/S9/PFE/WebCube/api/src/main/java/fr/eseo/webcube/api/workers/junit-platform-console-standalone.jar");
         command.add("--class-path");
         command.add(classesSrcDir.getAbsolutePath() + File.pathSeparator + classesTestDir.getAbsolutePath());
         command.add("--scan-class-path");
