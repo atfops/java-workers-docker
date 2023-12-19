@@ -313,6 +313,10 @@ public class JobWorker {
         long startTime = System.currentTimeMillis();
         List<String> command = new ArrayList<>();
         command.add("javac");
+        command.add("-source");
+        command.add("1.8"); // Specify source compatibility
+        command.add("-target");
+        command.add("1.8"); // Specify target compatibility
         command.add("-d");
         command.add(outputDir.getAbsolutePath());
         command.add("-cp");
