@@ -40,7 +40,7 @@ public class JobWorker {
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("172.20.0.2");
+        factory.setHost("pfewc-rabbitmq-back.webcube.pfe.dns");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
